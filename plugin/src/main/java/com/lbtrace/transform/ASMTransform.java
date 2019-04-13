@@ -12,14 +12,12 @@ import com.android.build.api.transform.TransformInvocation;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.android.utils.FileUtils;
-
 import com.lbtrace.asm.strategy.AddFieldStrategy;
 import com.lbtrace.asm.strategy.AddMethodStrategy;
 import com.lbtrace.asm.strategy.WeaveStrategy;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +64,8 @@ public class ASMTransform extends Transform {
                         directoryInput.getScopes(),
                         Format.DIRECTORY);
                 try {
-                    transformDir(directoryInput.getFile(), dest);
                     FileUtils.copyDirectory(directoryInput.getFile(), dest);
+                    transformDir(directoryInput.getFile(), dest);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
