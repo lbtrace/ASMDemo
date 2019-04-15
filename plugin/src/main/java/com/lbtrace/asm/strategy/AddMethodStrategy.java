@@ -12,7 +12,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.crypto.spec.OAEPParameterSpec;
+
 import static org.objectweb.asm.Opcodes.ASM5;
+import static org.objectweb.asm.Opcodes.IRETURN;
+import static org.objectweb.asm.Opcodes.POP;
 
 /**
  * 类中添加方法的实现
@@ -79,6 +83,17 @@ public class AddMethodStrategy implements WeaveStrategy {
                 MethodVisitor methodVisitor = cv.visitMethod(methodACC,
                         methodName, methodDesc, null, null);
                 if (methodVisitor != null) {
+                    methodVisitor.visitCode();
+                    methodVisitor.visitLdcInsn("ASM.ASMAddMethod");
+                    methodVisitor.visitLdcInsn("this is add method");
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC,
+                            "android/util/Log",
+                            "i",
+                            "(Ljava/lang/String;Ljava/lang/String;)I",
+                            false);
+                    methodVisitor.visitInsn(POP);
+                    methodVisitor.visitInsn(Opcodes.RETURN);
+                    methodVisitor.visitMaxs(2, 0);
                     methodVisitor.visitEnd();
                 }
             }

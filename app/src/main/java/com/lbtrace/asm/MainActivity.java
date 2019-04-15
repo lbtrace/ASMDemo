@@ -9,6 +9,9 @@ import android.util.LogPrinter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * 使用 ASM 进行 AOP 编程展示界面
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ASM";
 
@@ -26,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "ASM 修改字段名测试: ");
         Log.i(ASMModifyField.LOG_TAG,
                 "modifyField" + " -----> " + getASMFieldName(ASMModifyField.class));
+        try {
+            Method m = ASMAddMethod.class.getDeclaredMethod("addMethod");
+            m.invoke(ASMAddMethod.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

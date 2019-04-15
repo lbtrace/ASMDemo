@@ -64,6 +64,7 @@ public class ASMTransform extends Transform {
                         directoryInput.getScopes(),
                         Format.DIRECTORY);
                 try {
+                    // First copyDirectory for create less Directory
                     FileUtils.copyDirectory(directoryInput.getFile(), dest);
                     transformDir(directoryInput.getFile(), dest);
                 } catch (IOException e) {
@@ -109,10 +110,6 @@ public class ASMTransform extends Transform {
             if (!targetClasses.containsKey(file.getName())) {
                 FileUtils.copyFile(file, outputFile);
                 continue;
-            }
-
-            if (!outputFile.exists()) {
-                outputFile.createNewFile();
             }
 
             targetClasses.get(file.getName())
