@@ -25,43 +25,14 @@ import static org.objectweb.asm.Opcodes.POP;
  * @date 2019/4/8
  */
 public class AddMethodStrategy implements WeaveStrategy {
-    private final int methodACC = Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC;
-    private final String methodName = "addMethod";
-    private final String methodDesc = "()V";
+    private static final int methodACC = Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC;
+    private static final String methodName = "addMethod";
+    private static final String methodDesc = "()V";
     private boolean isMethodPresent = false;
+
     @Override
     public void weaveCode(String input, String output) {
-        if (TextUtils.isEmpty(input) || TextUtils.isEmpty(output)) {
-            throw new IllegalArgumentException("input .class file or output .class file is null");
-        }
-
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        try {
-            inputStream = new FileInputStream(input);
-            final ClassReader classReader = new ClassReader(inputStream);
-            final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-            final ClassVisitor classVisitor = new AddMethodAdapter(ASM5, classWriter);
-            classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-            final byte[] newClassFile = classWriter.toByteArray();
-            outputStream = new FileOutputStream(output);
-            outputStream.write(newClassFile);
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            } catch (Exception e) {
-                // Ignore Exception
-            }
-        }
+        WeaveUtil.weave(input, output, this, this.getClass(), AddMethodAdapter.class);
     }
 
     private class AddMethodAdapter extends ClassVisitor {

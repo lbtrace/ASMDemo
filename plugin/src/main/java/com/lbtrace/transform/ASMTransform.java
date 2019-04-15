@@ -14,6 +14,8 @@ import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.android.utils.FileUtils;
 import com.lbtrace.asm.strategy.AddFieldStrategy;
 import com.lbtrace.asm.strategy.AddMethodStrategy;
+import com.lbtrace.asm.strategy.DeleteFieldStrategy;
+import com.lbtrace.asm.strategy.DeleteMethodStrategy;
 import com.lbtrace.asm.strategy.WeaveStrategy;
 
 import java.io.File;
@@ -37,6 +39,8 @@ public class ASMTransform extends Transform {
     {
         targetClasses.put("ASMAddField.class", new AddFieldStrategy());
         targetClasses.put("ASMAddMethod.class", new AddMethodStrategy());
+        targetClasses.put("ASMDeleteField.class", new DeleteFieldStrategy());
+        targetClasses.put("ASMDeleteMethod.class", new DeleteMethodStrategy());
     }
 
     @Override

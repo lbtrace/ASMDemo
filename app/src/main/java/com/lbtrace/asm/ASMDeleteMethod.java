@@ -15,6 +15,7 @@ public class ASMDeleteMethod {
 
     }
 
+    // 使用 ASM 删除该方法
     public static void deleteMethod() {
         Log.i(LOG_TAG, "this is delete method");
     }
