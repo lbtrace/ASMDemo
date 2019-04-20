@@ -8,6 +8,7 @@ package com.lbtrace.asm;
  */
 public class ASMDeleteField {
     public static final String LOG_TAG = "ASM.ASMDeleteField";
+    // 使用 ASM 删除该字段
     public Object deleteField = new Object();
 
     private ASMDeleteField() {

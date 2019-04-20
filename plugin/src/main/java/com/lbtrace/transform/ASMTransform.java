@@ -14,6 +14,9 @@ import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.android.utils.FileUtils;
 import com.lbtrace.asm.strategy.AddFieldStrategy;
 import com.lbtrace.asm.strategy.AddMethodStrategy;
+import com.lbtrace.asm.strategy.DeleteFieldStrategy;
+import com.lbtrace.asm.strategy.DeleteMethodStrategy;
+import com.lbtrace.asm.strategy.ModifyMethodStrategy;
 import com.lbtrace.asm.strategy.WeaveStrategy;
 
 import java.io.File;
@@ -37,6 +40,9 @@ public class ASMTransform extends Transform {
     {
         targetClasses.put("ASMAddField.class", new AddFieldStrategy());
         targetClasses.put("ASMAddMethod.class", new AddMethodStrategy());
+        targetClasses.put("ASMDeleteField.class", new DeleteFieldStrategy());
+        targetClasses.put("ASMDeleteMethod.class", new DeleteMethodStrategy());
+        targetClasses.put("ASMModifyMethod.class", new ModifyMethodStrategy());
     }
 
     @Override
@@ -64,6 +70,7 @@ public class ASMTransform extends Transform {
                         directoryInput.getScopes(),
                         Format.DIRECTORY);
                 try {
+                    // First copyDirectory for create less Directory
                     FileUtils.copyDirectory(directoryInput.getFile(), dest);
                     transformDir(directoryInput.getFile(), dest);
                 } catch (IOException e) {
@@ -109,10 +116,6 @@ public class ASMTransform extends Transform {
             if (!targetClasses.containsKey(file.getName())) {
                 FileUtils.copyFile(file, outputFile);
                 continue;
-            }
-
-            if (!outputFile.exists()) {
-                outputFile.createNewFile();
             }
 
             targetClasses.get(file.getName())

@@ -1,6 +1,7 @@
 package com.lbtrace.asm;
 
 import android.util.Log;
+import android.util.LogPrinter;
 
 /**
  * 使用 ASM 修改类的方法示例类
@@ -16,6 +17,9 @@ public class ASMModifyMethod {
     }
 
     public static void modifyMethod() {
+//        long startTime = System.currentTimeMillis();
         Log.i(LOG_TAG, "this is modify method");
+//        long endTime = System.currentTimeMillis();
+//        Log.i(LOG_TAG, "method consume time: " + (endTime - startTime) + "ms");
     }
 }

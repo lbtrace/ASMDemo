@@ -25,44 +25,14 @@ import static org.objectweb.asm.Opcodes.ASM5;
  */
 public class AddFieldStrategy implements WeaveStrategy {
     private static final String TARGET_CLASS_FILE = "ASMAddField.class";
-    private int fieldACC = ACC_PUBLIC;
-    private String fieldName = "addField";
-    private String fieldDesc = "Ljava/lang/Object;";
+    private static int fieldACC = ACC_PUBLIC;
+    private static final String fieldName = "addField";
+    private static final String fieldDesc = "Ljava/lang/Object;";
     private boolean isFieldPresent = false;
 
     @Override
     public void weaveCode(String input, String output) {
-        if (TextUtils.isEmpty(input) || TextUtils.isEmpty(output)) {
-            throw new IllegalArgumentException("input .class file or output .class file is null");
-        }
-
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        try {
-            inputStream = new FileInputStream(input);
-            final ClassReader classReader = new ClassReader(inputStream);
-            final ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-            final ClassVisitor classVisitor = new AddFieldAdapter(ASM5, classWriter);
-            classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-            final byte[] newClassFile = classWriter.toByteArray();
-            outputStream = new FileOutputStream(output);
-            outputStream.write(newClassFile);
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            } catch (Exception e) {
-                // Ignore Exception
-            }
-        }
+        WeaveUtil.weave(input, output, this, this.getClass(), AddFieldAdapter.class);
     }
 
     private class AddFieldAdapter extends ClassVisitor {
