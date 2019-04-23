@@ -32,7 +32,7 @@ public class WeaveUtil {
                              @NonNull Class outerClazz,
                              @NonNull Class adapterClazz) {
         if (TextUtils.isEmpty(inputClass) || TextUtils.isEmpty(outputClass)
-                || adapterClazz == null) {
+                || outerClazz == null || adapterClazz == null || weaveStrategy == null) {
             throw new IllegalArgumentException("input .class file or output .class file or ClassVisitor is null");
         }
 
